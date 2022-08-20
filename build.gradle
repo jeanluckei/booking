@@ -21,13 +21,18 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.8'
+
+	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.2.Final'
+	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.2.Final'
+
+	implementation group: 'org.apache.commons', name: 'commons-lang3'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.8'
 }
 
 tasks.named('test') {
