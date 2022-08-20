@@ -7,6 +7,8 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface BookingRepository extends ReactiveMongoRepository<Booking, String> {
+
     Flux<Booking> findAllByUsername(String username);
     Flux<Booking> findAllByRoomNumber(Long roomNumber);
+
 }

@@ -7,5 +7,8 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface RoomRepository extends ReactiveMongoRepository<Room, String> {
+
     Mono<Room> findByRoomNumber(Long roomNumber);
+    Mono<Boolean> existsByRoomNumber(Long roomNumber);
+
 }

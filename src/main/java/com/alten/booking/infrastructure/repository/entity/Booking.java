@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,6 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Accessors(chain = true)
 @Document(collection = "booking")
 public class Booking {
 
@@ -33,13 +36,13 @@ public class Booking {
     @Indexed
     private String username;
 
-    private String status;
+    private BookingStatus status;
 
     @Indexed
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Indexed
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -50,5 +53,13 @@ public class Booking {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
+    }
+
+    public Booking booked() {
+        return this.setStatus(BookingStatus.BOOKED);
+    }
+
+    public Booking cancelled() {
+        return this.setStatus(BookingStatus.CANCELLED);
     }
 }

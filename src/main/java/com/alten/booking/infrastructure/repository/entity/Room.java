@@ -28,10 +28,17 @@ public class Room {
     private String id;
 
     @Indexed(unique = true)
-    @Builder.Default
-    private Long roomNumber = 237L;
+    private Long roomNumber;
 
-    //add more room attributes, description, guestsNum, bedsNum, suites
+    private Long bedrooms;
+
+    private Long beds;
+
+    private Long guests;
+
+    private Long suites;
+
+    private Long bathrooms;
 
     @CreatedDate
     private LocalDateTime createdDate;
