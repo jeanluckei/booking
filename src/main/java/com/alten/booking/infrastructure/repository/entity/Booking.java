@@ -27,14 +27,18 @@ public class Booking {
     @Indexed
     private String id;
 
+    @Indexed
     private Long roomNumber;
 
-    private String userName;
+    @Indexed
+    private String username;
 
     private String status;
 
+    @Indexed
     private LocalDateTime startDate;
 
+    @Indexed
     private LocalDateTime endDate;
 
     @CreatedDate
