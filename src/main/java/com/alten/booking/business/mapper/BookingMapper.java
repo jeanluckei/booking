@@ -1,6 +1,7 @@
 package com.alten.booking.business.mapper;
 
-import com.alten.booking.api.dto.BookingDTO;
+import com.alten.booking.api.dto.BookingRequestDTO;
+import com.alten.booking.api.dto.BookingResponseDTO;
 import com.alten.booking.infrastructure.repository.entity.Booking;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -12,8 +13,8 @@ import org.mapstruct.ReportingPolicy;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BookingMapper {
 
-    Booking toEntity(BookingDTO dto);
-    BookingDTO toDto(Booking entity);
-    Booking copyFromDTO(BookingDTO bookingDTO, @MappingTarget Booking entity);
+    Booking toEntity(BookingRequestDTO dto);
+    BookingResponseDTO toDto(Booking entity);
+    Booking copyFromDTO(BookingRequestDTO bookingRequestDTO, @MappingTarget Booking entity);
 
 }

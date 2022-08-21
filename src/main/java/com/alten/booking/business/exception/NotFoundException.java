@@ -3,10 +3,10 @@ package com.alten.booking.business.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-public class BusinessException extends RuntimeException {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class NotFoundException extends RuntimeException {
 
-    public BusinessException(String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 
