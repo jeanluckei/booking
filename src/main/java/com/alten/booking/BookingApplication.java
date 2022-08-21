@@ -20,14 +20,15 @@ public class BookingApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		//For the purpose of the test, we assume the hotel has only one room available, room number 237.
-		roomRepository.save(Room.builder()
-				.roomNumber(237L)
-				.guests(4L)
-				.bedrooms(2L)
-				.suites(1L)
-				.beds(2L)
-				.bathrooms(2L)
-				.build())
+		roomRepository.deleteAll()
+				.then(roomRepository.save(Room.builder()
+						.roomNumber(237L)
+						.guests(4L)
+						.bedrooms(2L)
+						.suites(1L)
+						.beds(2L)
+						.bathrooms(2L)
+						.build()))
 				.subscribe();
 	}
 

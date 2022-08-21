@@ -23,3 +23,23 @@ The requirements are:
   documenté. Tout shortcut non expliqué doit etre consideré comme une erreur. On
   pourrait accepter un rendu avec 3 lignes de code si elles ont du sens et que tout le
   raisonnement et les problèmatiques à prendre en compte sont decrites. 
+
+### Why using Reactive types?
+Reactive types are not intended to allow you to process your requests or data faster, in fact they will introduce a
+small overhead compared to regular blocking processing. Their strength lies in their capacity to serve more request
+concurrently, and to handle operations with latency, such as requesting data from a remote server, more efficiently.
+They allow you to provide a better **QUALITY OF SERVICE** and a predictable capacity planning by dealing natively with time
+and latency without consuming more resources. Unlike traditional processing that blocks the current thread while waiting
+a result, a Reactive API that waits costs nothing, requests only the amount of data it is able to process and bring new
+capabilities since it deals with stream of data, not only with individual elements one by one.
+
+### Running application:
+This command is responsible for starting the kafka topics and the mongodb:
+`` 
+docker-compose up
+`` 
+
+When both running, start the spring-boot:
+``
+./gradlew bootRun
+``
