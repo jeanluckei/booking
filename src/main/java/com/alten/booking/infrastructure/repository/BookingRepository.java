@@ -1,6 +1,7 @@
 package com.alten.booking.infrastructure.repository;
 
 import com.alten.booking.infrastructure.repository.entity.Booking;
+import com.alten.booking.infrastructure.repository.entity.BookingStatus;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public interface BookingRepository extends ReactiveMongoRepository<Booking, String> {
 
     Flux<Booking> findAllByUsername(String username);
-    Flux<Booking> findAllByRoomNumber(Long roomNumber);
+    Flux<Booking> findAllByRoomNumberAndStatus(Long roomNumber, BookingStatus status);
 
     @Query(value = "{$and: [" +
             "        {roomNumber: ?0}," +

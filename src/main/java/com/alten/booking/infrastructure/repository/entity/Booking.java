@@ -59,7 +59,15 @@ public class Booking {
         return this.setStatus(BookingStatus.BOOKED);
     }
 
+    public Booking pending() {
+        return this.setStatus(BookingStatus.PENDING);
+    }
+
     public Booking cancelled() {
         return this.setStatus(BookingStatus.CANCELLED);
+    }
+
+    public Booking overbooked() {
+        return this.setStatus(BookingStatus.OVERBOOKED);
     }
 }
