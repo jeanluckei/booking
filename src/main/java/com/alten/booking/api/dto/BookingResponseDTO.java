@@ -1,5 +1,6 @@
 package com.alten.booking.api.dto;
 
+import com.alten.booking.infrastructure.repository.entity.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,24 +8,23 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BookingDTO {
+public class BookingResponseDTO {
 
-    @NotNull(message = "Room number is required")
+    private String id;
     private Long roomNumber;
-    @NotBlank(message = "Username must not be empty")
     private String username;
-    @NotNull(message = "Start date is required")
+    private BookingStatus status;
     private LocalDate startDate;
-    @NotNull(message = "End date is required")
     private LocalDate endDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 
     @Override
     public String toString() {

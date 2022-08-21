@@ -1,24 +1,25 @@
 package com.alten.booking.api.config;
 
+import com.alten.booking.business.exception.BadRequestException;
+import com.alten.booking.business.exception.BusinessException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ValidationHandler {
 
     @ExceptionHandler(WebExchangeBindException.class)
-    public ResponseEntity<List<String>> handleException(WebExchangeBindException e) {
+    public Mono<BusinessException> handleException(WebExchangeBindException e) {
         var errors = e.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        return ResponseEntity.unprocessableEntity().body(errors);
+        throw new BadRequestException(String.join(",", errors));
     }
 }

@@ -2,6 +2,7 @@ package com.alten.booking.business.service;
 
 import com.alten.booking.api.dto.RoomDTO;
 import com.alten.booking.business.exception.BusinessException;
+import com.alten.booking.business.exception.NotFoundException;
 import com.alten.booking.business.mapper.RoomMapper;
 import com.alten.booking.infrastructure.repository.RoomRepository;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,8 @@ public class RoomService {
 
     public Mono<RoomDTO> findByRoomNumber(Long roomNumber) {
         return repository.findByRoomNumber(roomNumber)
-                .map(mapper::toDto);
+                .map(mapper::toDto)
+                .switchIfEmpty(Mono.error(new NotFoundException("Room " + roomNumber + " not found!")));
     }
 
     public Mono<RoomDTO> createRoom(RoomDTO dto) {
