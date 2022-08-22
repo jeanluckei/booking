@@ -34,12 +34,15 @@ a result, a Reactive API that waits costs nothing, requests only the amount of d
 capabilities since it deals with stream of data, not only with individual elements one by one.
 
 ### Running application:
-This command is responsible for starting the kafka topics and the mongodb:
-`` 
+This command is responsible for starting the kafka topics, mongodb and redis cache:
+```` 
 docker-compose up
-`` 
+````
 
-When both running, start the spring-boot:
-``
-./gradlew bootRun
-``
+When all dockers up, start two instances of the service:
+````
+./gradlew bootRun --args='--server.port=8080'
+./gradlew bootRun --args='--server.port=8081'
+````
+
+Check the swaggers: http://localhost:8080/swagger-ui.html and http://localhost:8081/swagger-ui.html.

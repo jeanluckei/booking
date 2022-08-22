@@ -25,8 +25,8 @@ public class BookingService {
 
     private final BookingRepository repository;
     private final BookingMapper mapper;
-    private final RoomService roomService;
     private final BookingEventProducer producer;
+    private final BookingServiceValidator validator;
 
     public Mono<BookingResponseDTO> findById(String id) {
         return repository.findById(id)
@@ -71,6 +71,23 @@ public class BookingService {
                 .map(mapper::toDto);
     }
 
+    public Mono<Booking> createOrUpdate(Booking booking) {
+        return isRoomAvailable(booking)
+                .filter(BooleanUtils::isTrue)
+                .map(aBoolean -> booking.booked())
+                .flatMap(repository::save)
+                .switchIfEmpty(Mono.defer(() -> {
+                    if (Objects.isNull(booking.getId())) {
+                        return repository.save(booking.overbooked());
+                    }
+                    return Mono.error(new BusinessException("Sending message: Could not update your booking!"));
+                }));
+    }
+
+    public Mono<Booking> cancel(Booking booking) {
+        return repository.save(booking);
+    }
+
     public Mono<Boolean> isValidRequestAndRoomAvailable(Long roomNumber, LocalDate startDate, LocalDate endDate) {
         return isValidRequestAndRoomAvailable(Booking.builder().roomNumber(roomNumber)
                 .startDate(startDate)
@@ -89,8 +106,7 @@ public class BookingService {
     }
 
     private Mono<Boolean> isValidRequestAndRoomAvailable(Booking booking) {
-        return roomService.findByRoomNumber(booking.getRoomNumber())
-                .flatMap(it -> datesValidator(booking.getStartDate(), booking.getEndDate()))
+        return validator.validateRoomExistsAndDatesAreCorrect(booking)
                 .flatMap(it -> isRoomAvailable(booking));
     }
 
@@ -99,43 +115,5 @@ public class BookingService {
                         booking.getEndDate(), booking.getId())
                 .collectList()
                 .map(CollectionUtils::isEmpty);
-    }
-
-    private Mono<Boolean> datesValidator(LocalDate startDate, LocalDate endDate) {
-
-        if (!startDate.isEqual(endDate) && startDate.isAfter(endDate)) {
-            return Mono.error(new BusinessException("End date should be after start date"));
-        }
-
-        if (startDate.isBefore(LocalDate.now()) || startDate.isEqual(LocalDate.now())) {
-            return Mono.error(new BusinessException("Reservations start at least the next day of booking!"));
-        }
-
-        if (startDate.datesUntil(endDate).count() > 2) {
-            return Mono.error(new BusinessException("The stay can’t be longer than 3 days!"));
-        }
-
-        if (LocalDate.now().datesUntil(startDate).count() > 30) {
-            return Mono.error(new BusinessException("The stay can’t be reserved more than 30 days in advance!"));
-        }
-
-        return Mono.just(Boolean.TRUE);
-    }
-
-    public Mono<Booking> createOrUpdate(Booking booking) {
-        return isRoomAvailable(booking)
-                .filter(BooleanUtils::isTrue)
-                .map(aBoolean -> booking.booked())
-                .flatMap(repository::save)
-                .switchIfEmpty(Mono.defer(() -> {
-                    if (Objects.isNull(booking.getId())) {
-                        return repository.save(booking.overbooked());
-                    }
-                    return Mono.error(new BusinessException("Sending message: Could not update your booking!"));
-                }));
-    }
-
-    public Mono<Booking> cancel(Booking booking) {
-        return repository.save(booking);
     }
 }
