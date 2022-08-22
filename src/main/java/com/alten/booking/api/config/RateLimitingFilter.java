@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
@@ -17,6 +18,7 @@ import java.util.Objects;
 
 @Configuration
 @AllArgsConstructor
+@ActiveProfiles("prd")
 public class RateLimitingFilter implements WebFilter, Ordered {
 
     private RateLimiter rateLimiter;
