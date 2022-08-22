@@ -1,0 +1,32 @@
+logging.level.com: INFO
+springdoc.api-docs.path: /api-docs
+springdoc.swagger-ui.disable-swagger-default-url: true
+server.error.include-message: always
+spring:
+  application.name: booking-service
+  cloud.stream:
+    default-binder: kafka
+    kafka.binder:
+      autoCreateTopics: false
+      brokers: localhost:29092,localhost:39092
+      configuration.isolation.level: read_committed
+      producerProperties:
+        acks: all
+        retries: 3
+    bindings:
+      bookingEventInput-in-0:
+        consumer.max-attempts: 10
+        contentType: application/json
+        destination: booking-operations
+        group: ${spring.application.name}
+      bookingEventOutput-out-0:
+        contentType: application/json
+        destination: booking-operations
+        group: ${spring.application.name}
+    function.definitions: bookingEventInput;bookingEventOutput;
+  data.mongodb:
+    database: test
+    port: 27017
+management:
+  security:
+    enabled: false
