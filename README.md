@@ -1,6 +1,4 @@
-# booking
-Booking API
-This microservice was
+# Booking API
 
 [Spring Boot](http://projects.spring.io/spring-boot/) microservice responsible to ensure the operation of the last hotel
 in Cancun.
@@ -17,7 +15,7 @@ and latency without consuming more resources. Unlike traditional processing that
 a result, a Reactive API that waits costs nothing, requests only the amount of data it is able to process and bring new
 capabilities since it deals with stream of data, not only with individual elements one by one.
 
-### Tecnologia
+### Technology
 * [Java 11](https://docs.oracle.com/en/java/javase/11/)
 * [Spring Boot 2.7.3](https://spring.io/projects/spring-boot)
 * [Bucket4j](https://github.com/bucket4j/bucket4j)
