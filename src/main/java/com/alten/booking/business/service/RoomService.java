@@ -46,6 +46,7 @@ public class RoomService {
 
     public Mono<RoomDTO> updateRoom(String id, RoomDTO dto) {
         return repository.findById(id)
+                .switchIfEmpty(Mono.error(new NotFoundException("Room " + id + " not found!")))
                 .map(entity -> mapper.copyFromDTO(dto, entity))
                 .flatMap(repository::save)
                 .map(mapper::toDto);

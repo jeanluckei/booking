@@ -66,6 +66,7 @@ public class BookingService {
 
     public Mono<BookingResponseDTO> cancelById(String id) {
         return repository.findById(id)
+                .switchIfEmpty(Mono.error(new NotFoundException("Booking not found for cancelling!")))
                 .map(Booking::cancelled)
                 .flatMap(producer::bookingEventOutput)
                 .map(mapper::toDto);
@@ -94,7 +95,9 @@ public class BookingService {
                 .endDate(endDate)
                 .build())
                 .filter(BooleanUtils::isFalse)
-                .flatMap(aBoolean -> Mono.error(new BusinessException("Room not available for given dates!")));
+                .flatMap(aBoolean -> Mono.error(new BusinessException("Room not available for given dates!")))
+                .switchIfEmpty(Mono.just(Boolean.TRUE))
+                .cast(Boolean.class);
     }
 
     private Mono<Booking> validateBooking(Booking booking) {
