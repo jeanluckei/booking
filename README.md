@@ -17,7 +17,18 @@ and latency without consuming more resources. Unlike traditional processing that
 a result, a Reactive API that waits costs nothing, requests only the amount of data it is able to process and bring new
 capabilities since it deals with stream of data, not only with individual elements one by one.
 
+### Tecnologia
+* [Java 11](https://docs.oracle.com/en/java/javase/11/)
+* [Spring Boot 2.7.3](https://spring.io/projects/spring-boot)
+* [Bucket4j](https://github.com/bucket4j/bucket4j)
+* [Redis 7](https://redis.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [Kafka](https://kafka.apache.org/)
+* ["Semi Hexagonal Architecture"](https://www.baeldung.com/hexagonal-architecture-ddd-spring)
+  
 ### Running application:
+Requirements: [Docker compose](https://docs.docker.com/compose/install/)
+
 This command is responsible for starting the kafka topics, mongodb and redis cache:
 ```` 
 docker-compose up
