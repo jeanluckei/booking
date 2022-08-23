@@ -52,7 +52,7 @@ the controller.
 ### Examples:
 ````
 POST /booking
-header: "test"
+headers {"username": "test"}
 {
   "roomNumber": 237,
   "username": "test",
@@ -61,7 +61,7 @@ header: "test"
 }
 
 PUT /booking/6303bd67ef22d66c2ea11693
-header: "test"
+headers {"username": "test"}
 {
   "roomNumber": 237,
   "username": "test",
